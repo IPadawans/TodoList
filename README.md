@@ -2,6 +2,7 @@
 # Backend
 * When you pull the application, run `yarn` on directory of project
 * For backend of application, is necessary postgres on you environment, runing at port 5432, and a database named `todolistsaipos`.
+* Run migrations with command `yarn typeorm:migration run`
 * Follow the `.env.example` file to create a file named `.env`, in that file, fill the informations to correctly run application
 * Run application with command `yarn dev:server`
 * Available routes:
