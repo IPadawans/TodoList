@@ -6,8 +6,7 @@ export default class OutOfTasksController {
     const { email, name } = request.body;
     if (!email || !name) {
       return response.status(400).json({
-        message:
-          'Missing params, be sure that you inform: email, name, description',
+        message: 'Missing params, be sure that you inform: email, name',
       });
     }
 
