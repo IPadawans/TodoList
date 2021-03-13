@@ -43,9 +43,12 @@ export default class TasksController {
   }
 
   async list(request: Request, response: Response): Promise<Response> {
+    const { status } = request.query;
     const tasksRepository = getCustomRepository(TasksRepository);
-    const tasks = await tasksRepository.find({ relations: ['user'] });
-
+    const filtersAndRelations = status
+      ? { relations: ['user'], where: { status } }
+      : { relations: ['user'] };
+    const tasks = await tasksRepository.find(filtersAndRelations);
     return response.json(classToClass(tasks));
   }
 
