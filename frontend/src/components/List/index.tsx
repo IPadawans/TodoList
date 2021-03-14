@@ -42,12 +42,23 @@ const List: React.FC<ListProps> = ({ name, useOutOfTasks }) => {
   }, [name]);
 
   const handleOutOfTasks = useCallback(async () => {
-    api
-      .post('/outOfTasks', { name: 'Eu', email: 'eu@me.com' })
-      .then((response) => {
-        const dataOfResponse: TaskProps[] = response.data;
-        setTasks([...tasks, ...dataOfResponse]);
+    try {
+      const response = await api.post('/outOfTasks', {
+        name: 'Eu',
+        email: 'eu@me.com',
       });
+      const dataOfResponse: TaskProps[] = response.data;
+      setTasks([...tasks, ...dataOfResponse]);
+    } catch (e) {
+      if (e.response) {
+        await Alert(e.response.data.message, 'Error');
+      } else {
+        await Alert(
+          'Could not create task, be sure that server is running',
+          'Error',
+        );
+      }
+    }
   }, [tasks]);
 
   const handleNewTask = useCallback(async () => {
@@ -77,7 +88,14 @@ const List: React.FC<ListProps> = ({ name, useOutOfTasks }) => {
 
       setTasks([...tasks, response.data]);
     } catch (e) {
-      await Alert(e.response.data.message, 'Error');
+      if (e.response) {
+        await Alert(e.response.data.message, 'Error');
+      } else {
+        await Alert(
+          'Could not create task, be sure that server is running',
+          'Error',
+        );
+      }
     }
   }, [tasks]);
 
